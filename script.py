@@ -2,29 +2,27 @@ import os
 
 #Find all ts files in the repository
 
-def find_files(path):
-    directories=[]
-    files=[]
-    base_directory_files = os.listdir(path)
-    for item in base_directory_files:
-        if item == ".git": continue
-        if os.path.isdir(item):
-            directories.append(item)
-    #print(directories)
-    for dir in directories:
-        for file in os.listdir(f"{path}/{dir}"):
+def find_files():
+    ts_files=[]
+    for root, dirs, files in os.walk("."):
+        for name in files:
+            file = os.path.join(root, name)
             if file[-3:] == ".ts":
-                files.append(f"{dir}/{file}")
-    #print(files)
-    return  files
+                ts_files.append(os.path.join(root, name))
+        for name in dirs:
+            file = os.path.join(root, name)
+            if file[-3:] == ".ts":
+                ts_files.append(os.path.join(root, name))
+        
+    return ts_files
 
 #run tsc file_path/file_name on every ts file
 
 def compile(file):
     command = f"tsc {file}"
-    os.system(f"cmd /c {command}")
+    os.system(f"{command}")
 
 
-files = find_files(".")
+files = find_files()
 for file in files:
     compile(file)
