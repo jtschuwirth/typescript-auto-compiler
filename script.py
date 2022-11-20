@@ -48,6 +48,9 @@ def order_files(file):
 #main 
 
 hashes = {}
+if not os.path.exists("./hashes.json"):
+    with open("./hashes.json", "w") as json_file:
+        json.dump({}, json_file)
 with open("./hashes.json", "r") as json_file:
     hashes = json.load(json_file)
 files = find_files()
