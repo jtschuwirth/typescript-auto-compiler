@@ -39,7 +39,10 @@ def compile(file, hashes):
 # save files in a folder lambda
 
 def order_files(file):
-    os.mkdir(f"./lambda/{'/'.join(file.split('/')[:-1])}")
+    try:
+        os.mkdir(f"./lambda/{'/'.join(file.split('/')[:-1])}")
+    except:
+        pass
     shutil.move(file, f"./lambda/{file}")
 
 hashes = {}
