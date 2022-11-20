@@ -1,3 +1,4 @@
+"use strict";
 function test_function(message) {
     return message;
 }
