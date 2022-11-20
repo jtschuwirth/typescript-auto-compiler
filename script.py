@@ -1,6 +1,7 @@
 import os
 import hashlib
 import json
+import shutil
 
 #Find all ts files in the repository
 
@@ -25,7 +26,7 @@ def compile(file, hashes):
     with open(file, "rb") as f:
         file_hash = hashlib.md5(f.read()).hexdigest()
     if file in hashes and hashes[file] == file_hash:
-        return
+        return False
     else:
         hashes[file] = file_hash
         with open("./hashes.json", "w") as json_file:
@@ -33,10 +34,19 @@ def compile(file, hashes):
         command = f"tsc {file}"
         print("compiling; ", file)
         os.system(f"{command}")
+        return f"{file[2:-3]}.js"
+
+# save files in a folder lambda
+
+def order_files(file):
+    os.mkdir(f"./lambda/{'/'.join(file.split('/')[:-1])}")
+    shutil.move(file, f"./lambda/{file}")
 
 hashes = {}
 with open("./hashes.json", "r") as json_file:
     hashes = json.load(json_file)
 files = find_files()
 for file in files:
-    compile(file, hashes)
+    compiled_file = compile(file, hashes)
+    if compiled_file:
+        order_files(compiled_file)
