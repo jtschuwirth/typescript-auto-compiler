@@ -1,5 +1,3 @@
-//1
-
 function test_function(message:string) {
     return message
 }

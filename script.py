@@ -7,7 +7,9 @@ import shutil
 
 def find_files():
     ts_files=[]
+    exclude = set(["node_modules"])
     for root, dirs, files in os.walk("."):
+        dirs[:] = [d for d in dirs if d not in exclude]
         for name in files:
             file = os.path.join(root, name)
             if file[-3:] == ".ts":
