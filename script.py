@@ -36,7 +36,7 @@ def compile(file, hashes):
         os.system(f"{command}")
         return f"{file[2:-3]}.js"
 
-# save files in a folder lambda
+#save files in a folder lambda
 
 def order_files(file):
     try:
@@ -44,6 +44,8 @@ def order_files(file):
     except:
         pass
     shutil.move(file, f"./lambda/{file}")
+
+#main 
 
 hashes = {}
 with open("./hashes.json", "r") as json_file:
